@@ -6,7 +6,7 @@ class Player {
 	}
 
 	playCard() {
-		if(this.isAi){
+		if(this.isComputer){
 			var card_to_play = Math.floor(Math.random() * this.hand.length)
 			// Automate
 		} else {

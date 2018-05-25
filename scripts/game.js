@@ -59,11 +59,13 @@ class Game {
 		// Declare season
 		this.dealCardsAccordingTo(roundNumber)
 
-		/*while(this.player.hand.length != 0) {
+		/*
+		while(this.player.hand.length != 0) {
 			// wait for user input
 			// after input is done, computer goes
 			// calculate score
-		}*/
+		}
+		*/
 
 		// Change seasons
 		this.currentSeason = this.SEASONS[roundNumber - 1]

@@ -14,14 +14,28 @@
 		<div id="board">
 			<div id="computer">
 			</div>
-			<div id="person">
+			<div id="player">
 			</div>
 		</div>
 		<script>
+			var board_ui = document.getElementById('board')
+			var computer_ui = document.getElementById('computer')
+			var player_ui = document.getElementById('player')
+
 			var deck = new Deck()
 			var game = new Game()
 
 			game.start()
+
+			console.log("Player's first hand: ")
+			console.log(game.player.hand[0])
+			console.log("Computer's first hand: ")
+			console.log(game.computer.hand[0])
+
+			for(var i = 0; i < game.player.hand.length; i++) {
+				player_ui.appendChild(game.player.hand[i].image)	
+				computer_ui.appendChild(game.computer.hand[i].image)
+			}
 		</script>
 	</body>
 </html>
