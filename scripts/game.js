@@ -22,7 +22,7 @@ class Game {
 	}
 
 	shuffleDeck() {
-		var indices = this.CreateIndicesWithLengthOf(this.deck.cards.length)
+		var indices = this.CreateRandomIndicesWithLengthOf(this.deck.cards.length)
 		var old_card_array = this.deck.cards
 		this.deck.cards = []
 
@@ -31,7 +31,7 @@ class Game {
 		}
 	}
 
-	CreateIndicesWithLengthOf(number) {
+	CreateRandomIndicesWithLengthOf(number) {
 		var list = []
 
 		for(var i = 0; i < number; i++) {
@@ -68,7 +68,6 @@ class Game {
 		// Change seasons
 		this.currentSeason = this.SEASONS[roundNumber - 1]
 	}
-
 
 	dealCardsAccordingTo(roundNumber) {
 		for(var i = 0; i < 7 - roundNumber; i++) {
