@@ -23,9 +23,16 @@ class Deck {
 
 		var image = new Image()
 		image.src = 'sprites/' + season_paths[season] + '_' + number + '.png'
+    image.alt = season_paths[season] + " " + number
 		image.id = season_paths[season] + '_' + number
-		image.className = "card"
+		image.setAttribute("onclick", "game.compareCards(this)")
 
 		return image
+	}
+
+	cardBacksideImg() {
+		// TODO: カードの裏側のpngを作り、1枚ずつじゃなくてひとつのソースを参照するだけでいいかな
+		// computer.hand[i].image.src = game.deck.cardBacksideImg()
+		return 'sprites/card_backside.png'
 	}
 }

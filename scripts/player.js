@@ -2,15 +2,7 @@ class Player {
 	constructor(isComputer = false) {
 		this.isComputer = isComputer
 		this.hand = []
+		this.turn = false
 		this.score = 0
-	}
-
-	playCard() {
-		if(this.isComputer){
-			var card_to_play = Math.floor(Math.random() * this.hand.length)
-			// Automate
-		} else {
-			// wait for user input
-		}
 	}
 }

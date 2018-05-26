@@ -2,6 +2,8 @@
 	<head>
 		<meta charset="utf-8"></head>
 
+		<script src="vendor/jquery-3.3.1.min.js"></script>
+
 		<script src="scripts/card.js"></script>
 		<script src="scripts/deck.js"></script>
 
@@ -12,25 +14,20 @@
 
 	<body>
 		<div id="board">
-			<div id="computer">
+			<div id="computer_hand">
 			</div>
-			<div id="player">
+			<div id="player_hand">
 			</div>
 		</div>
 		<script>
 			var board_ui = document.getElementById('board')
-			var computer_ui = document.getElementById('computer')
-			var player_ui = document.getElementById('player')
+			var computer_ui = document.getElementById('computer_hand')
+			var player_ui = document.getElementById('player_hand')
 
 			var deck = new Deck()
 			var game = new Game()
 
 			game.start()
-
-			console.log("Player's first hand: ")
-			console.log(game.player.hand[0])
-			console.log("Computer's first hand: ")
-			console.log(game.computer.hand[0])
 
 			for(var i = 0; i < game.player.hand.length; i++) {
 				player_ui.appendChild(game.player.hand[i].image)	

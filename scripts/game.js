@@ -1,4 +1,7 @@
 class Game {
+
+	// TODO: Make all variables _ case, not camel case
+
 	constructor() {
 		this.deck = new Deck()
 		this.player = new Player()
@@ -7,18 +10,21 @@ class Game {
 		this.SEASONS = this.deck.getSeasons()
 		this.currentSeason = this.SEASONS[0]
 		this.mainSeason
+
+		this.cardComparisonResult
 	}
 
 	start() {
 		this.shuffleDeck()
 		this.meanSeason = this.selectMainSeason()
+		var numberOfRounds = 1 // TODO: Change to 4 rounds
 
 		// Go into main flow
-		for(var i = 1; i <= 4; i++) {
+		for(var i = 1; i <= numberOfRounds; i++) {
 			this.startRound(i)
 		}
 
-		// Put results, go back to starting screen
+		// End game, put results, go back to starting screen
 	}
 
 	shuffleDeck() {
@@ -59,13 +65,10 @@ class Game {
 		// Declare season
 		this.dealCardsAccordingTo(roundNumber)
 
-		/*
-		while(this.player.hand.length != 0) {
-			// wait for user input
-			// after input is done, computer goes
-			// calculate score
-		}
-		*/
+		// wait for user input
+		// after input is done, computer goes
+		// calculate score
+		this.player.turn = true
 
 		// Change seasons
 		this.currentSeason = this.SEASONS[roundNumber - 1]
@@ -76,9 +79,35 @@ class Game {
 			this.player.hand.push(this.deck.cards.pop())
 			this.computer.hand.push(this.deck.cards.pop())
 		}
+
+		for(i = 0; i < this.player.hand.length; i++) {
+			var player = this.player
+			var computer = this.computer
+		}
 	}
 
-	compareCards(player_card, computer_card) {
+	compareCards(card_image) {
+		if(this.player.turn == false) { return }
 
+		this.player.turn = false
+		console.log("Comparing cards...")
+
+		var player_card = this.player.hand.find(function(hand) { return hand.image == card_image })
+		// Do all the logic
+		// Give it some time (the equivalent it takes to do all the animation),
+		// and then do the setTimeout back to this.game.player.turn = true
+
+		// Select computer card
+		var computer_card_idx = Math.floor(Math.random() * this.computer.hand.length)
+		var computer_card = this.computer.hand[computer_card_idx]
+
+		// Make comparisons
+
+		// Update score
+
+		var resetTurn = setTimeout(function() {
+			console.log("play again")
+			console.log(this.game.player.turn = true)
+		}, 2000)
 	}
 }
