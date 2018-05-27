@@ -1,7 +1,7 @@
+//TODO: Change class name to Saloris
+// TODO: Make all variables _ case, not camel case
+
 class Game {
-
-	// TODO: Make all variables _ case, not camel case
-
 	constructor() {
 		this.deck = new Deck()
 		this.player = new Player()
@@ -11,12 +11,13 @@ class Game {
 		this.currentSeason = this.SEASONS[0]
 		this.mainSeason
 
-		this.cardComparisonResult
+		this.player_draw_card
+		this.computer_draw_card
 	}
 
 	start() {
-		this.shuffleDeck()
-		this.meanSeason = this.selectMainSeason()
+		this.deck = this.player.shuffle(this.deck)
+		this.mainSeason = this.selectMainSeason()
 		var numberOfRounds = 1 // TODO: Change to 4 rounds
 
 		// Go into main flow
@@ -27,35 +28,7 @@ class Game {
 		// End game, put results, go back to starting screen
 	}
 
-	shuffleDeck() {
-		var indices = this.CreateRandomIndicesWithLengthOf(this.deck.cards.length)
-		var old_card_array = this.deck.cards
-		this.deck.cards = []
-
-		for(var i = 0; i < old_card_array.length; i++) {
-			this.deck.cards.push(old_card_array[indices[i]])
-		}
-	}
-
-	CreateRandomIndicesWithLengthOf(number) {
-		var list = []
-
-		for(var i = 0; i < number; i++) {
-			var new_index = false
-			while(!new_index) {
-				var index = Math.floor(Math.random() * number)
-
-				if(!list.includes(index)) {
-					list.push(index)
-					new_index = true
-				}
-			}
-		}
-
-		return list
-	}
-
-	// TODO: Display 4 random cards and have the user choose 1
+	// TODO: Display 4 or 6 random cards and have the user choose 1
 	selectMainSeason() {
 		var index = Math.floor(Math.random() * this.SEASONS.length)
 		return this.SEASONS[index]
@@ -86,7 +59,7 @@ class Game {
 		}
 	}
 
-	compareCards(card_image) {
+	playCards(card_image) {
 		if(this.player.turn == false) { return }
 
 		this.player.turn = false
@@ -102,6 +75,7 @@ class Game {
 		var computer_card = this.computer.hand[computer_card_idx]
 
 		// Make comparisons
+		var result = this.compareCards(player_card, computer_card)
 
 		// Update score
 
@@ -109,5 +83,35 @@ class Game {
 			console.log("play again")
 			console.log(this.game.player.turn = true)
 		}, 2000)
+	}
+
+	compareCards(player_card, computer_card, draw = false) {
+		var result
+
+		// TODO: Refactor
+		if(player_card.season == this.currentSeason && !computer_card.currentSeason) {
+			this.player.score += draw ? 2 : 1
+		} else if (player_card.season != this.currentSeason && computer_card.currentSeason == this.currentSeason) {
+			this.computer += draw ? 2 : 1
+		} else if (player_card.number > computer_card.number) {
+			this.player_card.score += draw ? 2 : 1
+		} else if (player_card.number < computer_card.number) {
+			this.computer += draw ? 2 : 1
+		} else {
+			if(!draw) {
+				// 
+				compareCards(player_card, computer_card, draw = true)
+			} else if (this.player.hand.length == 0) {
+				console.log("End process, throw away cards and points")
+			}
+		}
+
+		// Delete cards
+
+		if (draw) {
+			// delete the draw cards too
+		}
+
+		return result
 	}
 }

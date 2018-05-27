@@ -14,14 +14,16 @@
 
 	<body>
 		<div id="board">
-			<div id="computer_hand">
-			</div>
-			<div id="player_hand">
-			</div>
+			<div id="computer_hand"></div>
+			<div id="play_area"></div>
+			<div id="player_hand"></div>
+			<div id="draw_standby"></div><!-- Cards go here when there is a draw, until the draw is broken -->
 		</div>
+
 		<script>
 			var board_ui = document.getElementById('board')
 			var computer_ui = document.getElementById('computer_hand')
+			var play_area_ui = document.getElementById('play_area')
 			var player_ui = document.getElementById('player_hand')
 
 			var deck = new Deck()
@@ -30,7 +32,7 @@
 			game.start()
 
 			for(var i = 0; i < game.player.hand.length; i++) {
-				player_ui.appendChild(game.player.hand[i].image)	
+				player_ui.appendChild(game.player.hand[i].image)
 				computer_ui.appendChild(game.computer.hand[i].image)
 			}
 		</script>

@@ -25,7 +25,7 @@ class Deck {
 		image.src = 'sprites/' + season_paths[season] + '_' + number + '.png'
     image.alt = season_paths[season] + " " + number
 		image.id = season_paths[season] + '_' + number
-		image.setAttribute("onclick", "game.compareCards(this)")
+		image.setAttribute("onclick", "game.playCards(this)")
 
 		return image
 	}
