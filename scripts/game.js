@@ -18,7 +18,7 @@ class Game {
 
 		this.SEASONS = this.deck.getSeasons()
 		this.currentSeason = this.SEASONS[0]
-		this.mainSeason
+		this.mainSeason // Needed?
 
 		this.current_round = 1
 
@@ -31,17 +31,16 @@ class Game {
 	start() {
 		this.deck = this.player.shuffle(this.deck)
 		this.mainSeason = this.selectMainSeason()
-		var numberOfRounds = 1 // TODO: Change to 4 rounds
+		var numberOfRounds = 1 // TODO: Change to 4 rounds (actually may not need this)
 
 		// Go into main flow
-		//for(var i = 1; i <= numberOfRounds; i++) {
-			this.startRound(this.current_round)
-		//}
+		this.startRound(this.current_round)
 
 		// End game, put results, go back to starting screen
 	}
 
 	// TODO: Display 4 or 6 random cards and have the user choose 1
+	// May not need this...
 	selectMainSeason() {
 		var index = Math.floor(Math.random() * this.SEASONS.length)
 		return this.SEASONS[index]
@@ -51,18 +50,13 @@ class Game {
 		console.log("Round " + roundNumber + " has started")
 
 		this.currentSeason = this.SEASONS[roundNumber - 1]
-		alert(this.currentSeason + "になりました")
 		this.current_season_ui.innerHTML = "Season: " + this.currentSeason
+		// alert(this.currentSeason + "になりました")
 
 		this.dealCardsAccordingTo(roundNumber)
 		this.dealUI()
 
-		// wait for user input
-		// after input is done, computer goes
-		// calculate score
 		this.player.turn = true
-
-		
 	}
 
 	dealCardsAccordingTo(roundNumber) {
@@ -80,7 +74,7 @@ class Game {
 	dealUI() {
 		for(var i = 0; i < game.player.hand.length; i++) {
 			this.player_hand_ui.appendChild(game.player.hand[i].image)
-			this.computer_hand_ui.appendChild(game.computer.hand[i].image)
+			this.computer_hand_ui.appendChild(game.computer.hand[i].image) // change to backside image
 		}	
 	}
 
@@ -91,44 +85,13 @@ class Game {
 		console.log("Comparing cards...")
 
 		this.player_card_in_play = this.player.hand.find(function(hand) { return hand.image == card_image })
-		// Do all the logic
-		// Give it some time (the equivalent it takes to do all the animation),
-		// and then do the setTimeout back to this.game.player.turn = true
 
 		// Select computer card
 		var computer_card_idx = Math.floor(Math.random() * this.computer.hand.length)
 		this.computer_card_in_play = this.computer.hand[computer_card_idx]
 
 		// Make comparisons
-		var result = this.compareCards(this.player_card_in_play, this.computer_card_in_play)
-
-		// Update score
-
-		/*var resetTurn = setTimeout(function() {
-			$(player_card.image).remove()
-			$(computer_card.image).remove()
-
-			if(this.player_draw_card && this.computer_draw_card) {
-				$(this.player_draw_card.image).remove()
-				$(this.computer_draw_card.image).remove()
-
-				this.player_draw_card = null
-				this.computer_draw_card = null
-			}
-
-			var idx = this.game.player.hand.indexOf(player_card)
-			
-			this.game.player.hand.splice(idx, 1)
-			this.game.computer.hand.splice(computer_card_idx, 1)
-
-			console.log("play again")
-			console.log(this.game.player.turn = true)
-
-			if(this.game.player.hand.length == 0 && this.game.current_round < 4) {
-				this.game.current_round += 1
-				this.game.startRound(this.game.current_round)
-			}
-		}, 1000) */
+		this.compareCards(this.player_card_in_play, this.computer_card_in_play)
 	}
 
 	compareCards(player_card, computer_card, draw = false) {
@@ -204,14 +167,11 @@ class Game {
 			this.player_draw_card = null
 			this.computer_draw_card = null
 		}
-
-		var idx = this.player.hand.indexOf(this.player_card_in_play)
 		
-		this.player.hand.splice(idx, 1)
+		this.player.hand.splice(this.player.hand.indexOf(this.player_card_in_play), 1)
 		this.computer.hand.splice(this.computer.hand.indexOf(this.computer_card_in_play), 1)
 
-		console.log("play again")
-		console.log(this.player.turn = true)
+		this.player.turn = true // Needed?
 
 		if(this.player.hand.length == 0 && this.current_round < 4) {
 			this.current_round += 1
