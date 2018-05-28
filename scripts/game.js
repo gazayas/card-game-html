@@ -14,12 +14,16 @@ class Game {
 		this.player_hand_ui = document.getElementById("player_hand")
 		this.draw_standby_ui = document.getElementById("draw_standby")
 
+		this.can_proceed = false
+
 		this.SEASONS = this.deck.getSeasons()
 		this.currentSeason = this.SEASONS[0]
 		this.mainSeason
 
 		this.current_round = 1
 
+		this.player_card_in_play
+		this.computer_card_in_play
 		this.player_draw_card
 		this.computer_draw_card
 	}
@@ -47,6 +51,7 @@ class Game {
 		console.log("Round " + roundNumber + " has started")
 
 		this.currentSeason = this.SEASONS[roundNumber - 1]
+		alert(this.currentSeason + "になりました")
 		this.current_season_ui.innerHTML = "Season: " + this.currentSeason
 
 		this.dealCardsAccordingTo(roundNumber)
@@ -85,21 +90,21 @@ class Game {
 		this.player.turn = false
 		console.log("Comparing cards...")
 
-		var player_card = this.player.hand.find(function(hand) { return hand.image == card_image })
+		this.player_card_in_play = this.player.hand.find(function(hand) { return hand.image == card_image })
 		// Do all the logic
 		// Give it some time (the equivalent it takes to do all the animation),
 		// and then do the setTimeout back to this.game.player.turn = true
 
 		// Select computer card
 		var computer_card_idx = Math.floor(Math.random() * this.computer.hand.length)
-		var computer_card = this.computer.hand[computer_card_idx]
+		this.computer_card_in_play = this.computer.hand[computer_card_idx]
 
 		// Make comparisons
-		var result = this.compareCards(player_card, computer_card)
+		var result = this.compareCards(this.player_card_in_play, this.computer_card_in_play)
 
 		// Update score
 
-		var resetTurn = setTimeout(function() {
+		/*var resetTurn = setTimeout(function() {
 			$(player_card.image).remove()
 			$(computer_card.image).remove()
 
@@ -123,7 +128,7 @@ class Game {
 				this.game.current_round += 1
 				this.game.startRound(this.game.current_round)
 			}
-		}, 1000)
+		}, 1000) */
 	}
 
 	compareCards(player_card, computer_card, draw = false) {
@@ -181,5 +186,36 @@ class Game {
 		console.log(computer_card)
 		console.log("player score: " + this.player.score)
 		console.log("computer score: " + this.computer.score)
+
+		this.can_proceed = true
+	}
+
+	proceed() {
+		if(!this.can_proceed) { return false }
+
+		this.can_proceed = false
+
+		$("#play_area").children().remove()
+
+		if(this.player_draw_card && this.computer_draw_card) {
+			$(this.player_draw_card.image).remove()
+			$(this.computer_draw_card.image).remove()
+
+			this.player_draw_card = null
+			this.computer_draw_card = null
+		}
+
+		var idx = this.player.hand.indexOf(this.player_card_in_play)
+		
+		this.player.hand.splice(idx, 1)
+		this.computer.hand.splice(this.computer.hand.indexOf(this.computer_card_in_play), 1)
+
+		console.log("play again")
+		console.log(this.player.turn = true)
+
+		if(this.player.hand.length == 0 && this.current_round < 4) {
+			this.current_round += 1
+			this.startRound(this.current_round)
+		}
 	}
 }
