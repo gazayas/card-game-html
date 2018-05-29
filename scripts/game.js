@@ -38,6 +38,7 @@ class Game {
 	}
 
 	startRound(roundNumber) {
+		// TODO: Have the deck on the side. User clicks, and dealUI fires for animation
 		console.log("Round " + roundNumber + " has started")
 
 		this.currentSeason = this.SEASONS[roundNumber - 1]
@@ -59,10 +60,11 @@ class Game {
 	}
 
 	dealUI() {
+		// Use setTimeout() to deal each card
 		for(var i = 0; i < game.player.hand.length; i++) {
 			this.player_hand_ui.appendChild(game.player.hand[i].image)
 			this.computer_hand_ui.appendChild(game.computer.hand[i].image) // change to backside image
-		}	
+		}
 	}
 
 	// Attached to card image in index.html
