@@ -44,6 +44,7 @@ class Game {
 
 		this.currentSeason = this.SEASONS[roundNumber - 1]
 		this.current_season_ui.innerHTML = "Season: " + this.currentSeason
+		// ここでdivか何かで表示する
 		// alert(this.currentSeason + "になりました")
 
 		this.dealCardsAccordingTo(roundNumber)
@@ -56,11 +57,6 @@ class Game {
 		for(var i = 0; i < 7 - roundNumber; i++) {
 			this.player.hand.push(this.deck.cards.pop())
 			this.computer.hand.push(this.deck.cards.pop())
-		}
-
-		for(i = 0; i < this.player.hand.length; i++) {
-			var player = this.player
-			var computer = this.computer
 		}
 	}
 
