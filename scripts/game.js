@@ -30,8 +30,6 @@ class Game {
 
 	start() {
 		this.deck = this.player.shuffle(this.deck)
-		this.mainSeason = this.selectMainSeason()
-		var numberOfRounds = 1 // TODO: Change to 4 rounds (actually may not need this)
 
 		// Go into main flow
 		this.startRound(this.current_round)
@@ -67,6 +65,7 @@ class Game {
 		}	
 	}
 
+	// Attached to card image in index.html
 	playCards(card_image) {
 		if(this.player.turn == false) { return }
 
@@ -76,7 +75,11 @@ class Game {
 		this.player_card_in_play = this.player.hand.find(function(hand) { return hand.image == card_image })
 
 		// Select computer card
-		var computer_card_idx = Math.floor(Math.random() * this.computer.hand.length)
+		// var computer_card_idx = Math.floor(Math.random() * this.computer.hand.length)
+		// set to 0 for testing
+		var computer_card_idx = 0
+		// This is an issue if card in the draw areaが当たってしまったら
+		// Fix the bug
 		this.computer_card_in_play = this.computer.hand[computer_card_idx]
 
 		// Make comparisons
@@ -98,6 +101,7 @@ class Game {
 				((player_card.season != this.currentSeason && computer_card.season != this.currentSeason) &&
 				(player_card.number == computer_card.number))
 			) {
+			//if(this.player.hand.length == 0) { end process here. Does the card need to be deleted first to register as 0?}
 			if(!this.draw) {
 				// Move cards to draw_standby area
 				$(player_card.image).appendTo(draw_standby)
@@ -117,7 +121,7 @@ class Game {
 					compareCards(player_card, computer_card, true)
 				}
 			}
-		} else if( // win
+			} else if( // win
 				(player_card.season == this.currentSeason && computer_card.season != this.currentSeason) ||
 				((player_card.season == this.currentSeason && computer_card.season == this.currentSeason) &&
 				(player_card.number > computer_card.number)) ||
