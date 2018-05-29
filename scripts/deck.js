@@ -22,8 +22,8 @@ class Deck {
 		var season_paths = ["spring", "summer", "fall", "winter"]
 
 		var image = new Image()
-		image.src = 'sprites/' + season_paths[season] + '_' + number + '.png'
-    image.alt = season_paths[season] + " " + number
+		// image.src = 'sprites/' + season_paths[season] + '_' + number + '.png'
+    	image.alt = season_paths[season] + " " + number
 		image.id = season_paths[season] + '_' + number
 		image.setAttribute("onclick", "game.playCards(this)")
 

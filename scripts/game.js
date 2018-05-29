@@ -18,7 +18,6 @@ class Game {
 
 		this.SEASONS = this.deck.getSeasons()
 		this.currentSeason = this.SEASONS[0]
-		this.mainSeason // Needed?
 
 		this.current_round = 1
 
@@ -26,6 +25,7 @@ class Game {
 		this.computer_card_in_play
 		this.player_draw_card
 		this.computer_draw_card
+		this.draw
 	}
 
 	start() {
@@ -37,13 +37,6 @@ class Game {
 		this.startRound(this.current_round)
 
 		// End game, put results, go back to starting screen
-	}
-
-	// TODO: Display 4 or 6 random cards and have the user choose 1
-	// May not need this...
-	selectMainSeason() {
-		var index = Math.floor(Math.random() * this.SEASONS.length)
-		return this.SEASONS[index]
 	}
 
 	startRound(roundNumber) {
@@ -95,6 +88,7 @@ class Game {
 	}
 
 	compareCards(player_card, computer_card, draw = false) {
+		this.draw = draw
 		// TODO: Change if 条件分岐 to methods
 		// Make a class? WinConditions
 
@@ -108,7 +102,7 @@ class Game {
 				((player_card.season != this.currentSeason && computer_card.season != this.currentSeason) &&
 				(player_card.number == computer_card.number))
 			) {
-			if(!draw) {
+			if(!this.draw) {
 				// Move cards to draw_standby area
 				$(player_card.image).appendTo(draw_standby)
 				$(computer_card.image).prependTo(draw_standby)
@@ -117,14 +111,14 @@ class Game {
 				this.computer_draw_card = computer_card
 				this.player.turn = true
 
-				// TODO: cards get moved and then just disapper...
-				// この後はユーザのclick eventが発生したら同じメソッドを呼び出すから大丈夫はず
-				return 
+				return
 			} else {
+				this.draw = true
 				if(this.player.hand.length == 0) {
 					console.log("End process. Throw away cards and points")
+					console.log("Notify player")
 				} else {
-					compareCards(this.player_draw_card, this.computer_draw_card, true)
+					compareCards(player_card, computer_card, true)
 				}
 			}
 		} else if( // win
@@ -134,13 +128,13 @@ class Game {
 				((player_card.season != this.currentSeason && computer_card.season != this.currentSeason) &&
 				(player_card.number > computer_card.number))
 			) {
-			this.player.score += draw ? 2 : 1
+			console.log("a draw? " + this.draw)
+			this.player.score += this.draw ? 2 : 1
+			this.draw = false
 		} else { // lose
-			this.computer.score += draw ? 2 : 1
-		}
-
-		if (draw) {
-			// delete the draw cards too
+			console.log("a draw? " + this.draw)
+			this.computer.score += this.draw ? 2 : 1
+			this.draw = false
 		}
 
 		console.log("player card:")
