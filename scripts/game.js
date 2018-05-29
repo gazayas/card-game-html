@@ -7,12 +7,12 @@ class Game {
 		this.player = new Player()
 		this.computer = new Player(true)
 
-		this.game_board = document.getElementById("board")
+		this.game_board =        document.getElementById("board")
 		this.current_season_ui = document.getElementById("current_season")
-		this.computer_hand_ui = document.getElementById("computer_hand")
-		this.play_area_ui = document.getElementById("play_area")
-		this.player_hand_ui = document.getElementById("player_hand")
-		this.draw_standby_ui = document.getElementById("draw_standby")
+		this.computer_hand_ui =  document.getElementById("computer_hand")
+		this.play_area_ui =      document.getElementById("play_area")
+		this.player_hand_ui =    document.getElementById("player_hand")
+		this.draw_standby_ui =   document.getElementById("draw_standby")
 
 		this.can_proceed = false
 
