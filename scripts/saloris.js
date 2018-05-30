@@ -1,25 +1,25 @@
-// TODO: Change class name to Saloris
 // TODO: Make all variables _ case, not camel case
 
-class Game {
+class Saloris {
 	constructor() {
-		this.deck = new Deck()
 		this.player = new Player()
 		this.computer = new Player(true)
 
 		this.game_board =        document.getElementById("board")
 		this.current_season_ui = document.getElementById("current_season")
+		this.score_ui =          document.getElementById("score")
 		this.computer_hand_ui =  document.getElementById("computer_hand")
 		this.play_area_ui =      document.getElementById("play_area")
 		this.player_hand_ui =    document.getElementById("player_hand")
 		this.draw_standby_ui =   document.getElementById("draw_standby")
+		this.start_button =      document.getElementById("start_button")
 
 		this.can_proceed = false
 
-		this.SEASONS = this.deck.getSeasons()
+		this.SEASONS = ["春", "夏", "秋", "冬"]
 		this.currentSeason = this.SEASONS[0]
 
-		this.current_round = 1
+		this.current_round
 
 		this.player_card_in_play
 		this.computer_card_in_play
@@ -30,7 +30,13 @@ class Game {
 	}
 
 	start() {
+		this.start_button.style.visibility = "hidden"
+		this.deck = new Deck()
 		this.deck = this.player.shuffle(this.deck)
+		this.current_round = 1
+		this.player.score = 0
+		this.computer.score = 0
+		this.score_ui.innerHTML = "Player score: 0  Computer score: 0"
 		this.startRound(this.current_round)
 	}
 
@@ -46,12 +52,11 @@ class Game {
 		this.dealCardsAccordingTo(roundNumber)
 
 		for(var i = 0; i < this.player.hand.length; i++) {
-			this.player.hand[i].image.setAttribute("onclick", "game.playCards(this)")
+			this.player.hand[i].image.setAttribute("onclick", "saloris.playCards(this)")
 			this.player.hand[i].image.imagePng = this.player.hand[i].image.src
 		}
 
 		for(i = 0; i < this.computer.hand.length; i++) {
-			// TODO: find a way to hide computer hand
 			this.computer.hand[i].imagePng = this.computer.hand[i].image.src
 			this.computer.hand[i].image.src = this.computer.hand[i].backside
 			this.computer.hand[i].image.alt = ""
@@ -71,9 +76,9 @@ class Game {
 
 	dealUI() {
 		// Use setTimeout() to deal each card. this.player.turn = true after that
-		for(var i = 0; i < game.player.hand.length; i++) {
-			this.player_hand_ui.appendChild(game.player.hand[i].image)
-			this.computer_hand_ui.appendChild(game.computer.hand[i].image) // change to backside image
+		for(var i = 0; i < saloris.player.hand.length; i++) {
+			this.player_hand_ui.appendChild(saloris.player.hand[i].image)
+			this.computer_hand_ui.appendChild(saloris.computer.hand[i].image)
 		}
 	}
 
@@ -120,11 +125,9 @@ class Game {
 				(player_card.number == computer_card.number))
 			) {
 			console.log("This is a draw")
-			// If no cards, end process and go to next round
-			// else if this.draw is already true, delete cards, go to next turn
-			// else, put to the side and let the user choose again
 
-			if(this.player.hand == 1) {
+			// TODO: Refactor
+			if(this.player.hand.length == 1) {
 				console.log("this is the last card. Points go to person who won last")
 				this.draw = false
 				if(this.last_win == "player") {
@@ -134,7 +137,7 @@ class Game {
 				} else {
 					console.log("NO WAN GETZ POINTZ")
 				}
-			} else if(this.draw) {
+			} else if(this.draw) { // TODO: Bug - Takes out extra card? When double draw
 				console.log("Points go to person who won last")
 				this.draw = false
 				if(this.last_win == "player") {
@@ -148,8 +151,6 @@ class Game {
 				this.draw = true
 
 				// Move cards to draw_standby area
-				//$(player_card.image).appendTo(draw_standby)
-				//$(computer_card.image).prependTo(draw_standby)
 				$("#play_area").children().appendTo(draw_standby)
 
 				this.player_draw_card = player_card
@@ -175,12 +176,8 @@ class Game {
 			this.last_win = "computer"
 		}
 
-		console.log("player card:")
-		console.log(player_card)
-		console.log("computer card:")
-		console.log(computer_card)
-		console.log("player score: " + this.player.score)
-		console.log("computer score: " + this.computer.score)
+		this.score_ui.innerHTML = "Player score: "   + this.player.score + " " +
+															"Computer score: " + this.computer.score
 
 		this.can_proceed = true
 	}
@@ -201,6 +198,9 @@ class Game {
 			$(this.player_draw_card.image).remove()
 			$(this.computer_draw_card.image).remove()
 
+			this.player.hand.splice(this.player.hand.indexOf(this.player_draw_card), 1)
+			this.computer.hand.splice(this.computer.hand.indexOf(this.computer_draw_card), 1)
+
 			this.player_draw_card = null
 			this.computer_draw_card = null
 		}
@@ -210,7 +210,7 @@ class Game {
 			this.startRound(this.current_round)
 		} else if(this.player.hand.length == 0 && this.current_round == 4) {
 			var end_script = "The game is finished.\n" +
-			"Your score: " + this.player.score + "\n" +
+			"Player score: " + this.player.score + "\n" +
 			"The computer's score: " + this.computer.score + "\n"
 			if(this.player.score > this.computer.score) {
 				end_script += "You won"
@@ -220,6 +220,10 @@ class Game {
 				end_script += "It's a tie"
 			}
 			alert(end_script)
+
+			this.current_season_ui.innerHTML = ""
+			this.score_ui.innerHTML = ""
+			this.start_button.style.visibility = "visible"
 		}
 	}
 }

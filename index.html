@@ -7,18 +7,21 @@
 		<script src="scripts/card.js"></script>
 		<script src="scripts/deck.js"></script>
 		<script src="scripts/player.js"></script>
-		<script src="scripts/game.js"></script>
+		<script src="scripts/saloris.js"></script>
 
 		<link rel="stylesheet" type="text/css" href="styles/saloris.css"/>
 	</head>
 
 	<body>
 		<div id="board">
-			<div id="current_season"></div>
+			<div id="current_season" style="color: #FFF"></div>
+			<div id="score" style="color: #FFF"></div>
 			<div id="computer_hand"></div>
-			<div id="play_area" onclick="game.proceed()" style="z-index: 2"></div>
+			<div id="play_area" onclick="saloris.proceed()" style="z-index: 2"></div>
 			<div id="player_hand"></div>
-			<div id="draw_standby" style="float: right;"></div><!-- Cards go here when there is a draw, until the draw is broken -->
+			<div id="draw_standby" style="float: right;"></div>
+
+			<button id="start_button" onclick="saloris.start()">Start</button>
 		</div>
 
 		<script>
@@ -26,11 +29,10 @@
 			var computer_ui = document.getElementById('computer_hand')
 			var play_area_ui = document.getElementById('play_area')
 			var player_ui = document.getElementById('player_hand')
+			var start_button = document.getElementById('start_button')
 
-			var deck = new Deck()
-			var game = new Game()
-
-			game.start()
+			// var deck = new Deck()
+			var saloris = new Saloris()
 		</script>
 	</body>
 </html>
