@@ -1,0 +1,15 @@
+body {
+  background-color: #000;
+}
+
+#board {
+  background-color: #228b22;
+}
+
+#computer_hand, #player_hand, #play_area {
+  background-color: #6aaf6a;
+}
+
+.card {
+  margin: 0px 10px;
+}
